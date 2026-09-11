@@ -4,7 +4,7 @@
 READY_FOR_PRODUCT_DEFINITION
 
 ## Governance Version
-1.1.0
+1.1.1
 
 ## Current Version
 0.0.0
@@ -15,6 +15,8 @@ READY_FOR_PRODUCT_DEFINITION
 - Executor governance available.
 - Project charter, requirements, and architecture placeholders available.
 - Quality gates and bootstrap guide available.
+- Repository verification and Manager hard stops available.
+- Compact task-to-Antigravity handoff protocol available.
 - Change request flow available for material approved-scope changes.
 - Task, report, and PR templates available.
 
@@ -25,4 +27,4 @@ None
 None
 
 ## Next Step
-Define and approve the project charter before requirements and implementation begin.
+Verify the target repository, then define and explicitly approve the project charter before requirements or implementation begin.
