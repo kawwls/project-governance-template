@@ -32,6 +32,23 @@ List the approved project context and why this task exists.
 ## Required Tests / Checks
 - List the exact tests, checks, builds, or manual verification required.
 
+## Approval Gate
+Do not hand this task to the Executor until `READY_FOR_IMPLEMENTATION` is explicitly approved by the Product Owner.
+
+## Manager Handoff
+After approval, the Manager should return a compact Antigravity prompt that references this task instead of repeating it:
+
+```text
+TASK-XXXX — EXECUTE
+Repo: OWNER/REPO
+Branch: branch-name
+
+Read `.agents/rules/executor-governance.md`, the current control docs, and this task file in full.
+Implement exactly this task. No scope/architecture/contract expansion.
+Run every required check. Commit + push the same branch. Do not merge.
+Return the required governance completion report. Contract/scope blocker -> BLOCKED.
+```
+
 ## Completion
 Commit and push the task branch.
 
