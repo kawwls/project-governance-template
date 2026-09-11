@@ -1,5 +1,11 @@
 # Governance Changelog
 
+## 1.1.2
+- Make repository verification fail-closed.
+- On repo 404/inaccessible/unreadable governance, stop all filesystem, local-template, preview, branch, task, asset, and implementation activity.
+- Forbid local substitutes and automatic governance version rewriting when GitHub verification fails.
+- Require an explicit `REPO_NOT_VERIFIED` response with the exact user action needed to continue.
+
 ## 1.1.1
 - Add a repository verification gate before repository-backed work.
 - Add Manager hard stops so planning cannot silently turn into implementation.
