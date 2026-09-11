@@ -14,9 +14,10 @@ The user owns product intent, priorities, and final product decisions.
 ChatGPT acts as Manager, Architect, and Reviewer.
 
 Responsibilities:
-- turn product intent into approved requirements;
+- turn product intent into an approved project charter and requirements;
 - define architecture and technical direction;
-- maintain locked decisions and project state;
+- maintain locked decisions, quality gates, and project state;
+- evaluate material change requests before implementation;
 - create scoped implementation tasks;
 - review implementation, tests, regressions, and scope compliance;
 - approve or reject work for merge.
@@ -34,12 +35,15 @@ Responsibilities:
 
 ## Source of Truth
 Before planning or reviewing, read from `main`:
-1. `docs/PROJECT_STATE.md`
-2. `docs/REQUIREMENTS.md`
-3. `docs/ARCHITECTURE.md`
-4. `docs/LOCKED_DECISIONS.md`
-5. the assigned task under `tasks/`
-6. `.agents/rules/executor-governance.md` when executor constraints matter
+1. `GOVERNANCE_VERSION`
+2. `docs/PROJECT_STATE.md`
+3. `docs/PROJECT_CHARTER.md`
+4. `docs/REQUIREMENTS.md`
+5. `docs/ARCHITECTURE.md`
+6. `docs/LOCKED_DECISIONS.md`
+7. `docs/QUALITY_GATES.md`
+8. the assigned task under `tasks/`
+9. `.agents/rules/executor-governance.md` when executor constraints matter
 
 A chat transcript is not the authoritative project state when it conflicts with the repository.
 
@@ -48,13 +52,15 @@ A chat transcript is not the authoritative project state when it conflicts with 
 ```text
 Idea
   ↓
-Product Definition
+Approved Project Charter
   ↓
 Approved Requirements
   ↓
 Approved Architecture
   ↓
 Locked Decisions
+  ↓
+READY_FOR_IMPLEMENTATION gate
   ↓
 TASK-XXXX
   ↓
@@ -73,13 +79,18 @@ Manager Review
 Update Project State
 ```
 
+Approval checkpoints are defined in `docs/QUALITY_GATES.md`.
+
 ## Manager-Owned Files
 The Manager normally owns:
+- `docs/PROJECT_CHARTER.md`
 - `docs/REQUIREMENTS.md`
 - `docs/ARCHITECTURE.md`
 - `docs/LOCKED_DECISIONS.md`
+- `docs/QUALITY_GATES.md`
 - `docs/PROJECT_STATE.md`
 - `docs/MANAGER_WORKFLOW.md`
+- change requests under `changes/`
 - task definitions under `tasks/`
 - governance rules under `.agents/rules/`
 - PR workflow templates
@@ -96,7 +107,8 @@ The Executor must not modify these unless the task explicitly authorizes it.
 - Fix rounds should address only the listed review findings unless new blocking evidence appears.
 
 ## Change Authority
-Explicit Manager approval is required before changing:
+Explicit Product Owner / Manager approval is required before changing:
+- approved project scope;
 - approved requirements;
 - architecture;
 - database/schema strategy;
@@ -106,6 +118,10 @@ Explicit Manager approval is required before changing:
 - major UX flows;
 - core framework/dependency direction;
 - deployment architecture.
+
+For material changes, create a change request from `changes/CHANGE_REQUEST_TEMPLATE.md` first. Review impact, alternatives, and affected control documents before implementation tasks are changed or created.
+
+Small implementation choices that stay within approved requirements, architecture, locks, and task scope do not need a change request.
 
 ## Manager Review Format
 
@@ -149,20 +165,26 @@ CHANGES_REQUIRED
 When a repository is created from this template:
 1. keep the governance skeleton;
 2. identify the new product idea;
-3. replace placeholder requirements with approved product requirements;
-4. define and approve architecture before implementation;
-5. record product/architecture locks;
-6. update `docs/PROJECT_STATE.md`;
-7. create `TASK-0001`;
-8. only then assign implementation work.
+3. define and approve `docs/PROJECT_CHARTER.md`;
+4. replace placeholder requirements with approved product requirements;
+5. define and approve architecture before implementation;
+6. record product/architecture locks;
+7. update `docs/PROJECT_STATE.md`;
+8. create `TASK-0001`;
+9. only then assign implementation work.
 
 Do not carry product-specific requirements or technology choices from another project unless explicitly approved for the new project.
 
 ## New Chat Bootstrap
-A new ChatGPT session should not rely on prior chat context as authoritative.
+Use `docs/BOOTSTRAP.md` rather than relying on prior chat context.
 
-Before continuing project work:
+A new ChatGPT session should:
 1. identify the target repository;
-2. read this file and the current control files from `main`;
+2. read the current control files from `main`;
 3. inspect relevant open PR/task state;
 4. continue from repository state instead of guessing stale context.
+
+## Governance Versioning
+`GOVERNANCE_VERSION` identifies the template governance version copied into a project. `CHANGELOG.md` records template evolution.
+
+Existing projects do not automatically inherit future template changes. Upgrade governance only when the Product Owner / Manager intentionally chooses to do so and verifies that the change does not conflict with project-specific rules.
